@@ -654,6 +654,8 @@ int CopyTIM2Buffer(int sourcex, int sourcey, int destx, int desty, int rot)
 {
 	// TO DO: Implement this function (see slides)
 
+	//4 for loops - 2 for the 64x64, 2 for the 4x4 (polystructs)
+
 	return 0;
 }
 
@@ -667,7 +669,15 @@ int DrawSegments2Buffer(SEGMENT* pSegments)
 {
 	// TO DO: Implement this function (see slides)
 	// Note the code below should copy the TIM at index "tileIndex" to the map grid square "mapIndex" 
-	// CopyTIM2Buffer(_TIMXPOS(tileIndex), _TIMYPOS(tileIndex), _MAPXPOS(mapIndex), _MAPYPOS(mapIndex), tileRot);
+	//CopyTIM2Buffer(_TIMXPOS(pSegments->sOriginX), _TIMYPOS(pSegments->sOriginY), _MAPXPOS(mapIndex), _MAPYPOS(mapIndex), pSegments->strTilePolyStruct->cRot);
+
+	int i = 0;
+	int j = 0;
+
+	for (j; j < 15; j++)
+	{
+		
+	}
 
 	return 0;
 }
