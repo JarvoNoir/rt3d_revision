@@ -654,47 +654,46 @@ int CopyTIM2Buffer(int sourcex, int sourcey, int destx, int desty, int rot)
 {
 	// TO DO: Implement this function (see slides)
 
-	const int tsize = 32;
+	const int tsize = 31; //texture size
 
 	//rot it to right way
-for (int y = 0; y < tsize; y++) //y
+for (int i = 0; i < 32; i++) //y
 	{
-		for (int x = 0; x < tsize; x++) //x
+		for (int j = 0; j < 32; j++) //x
 		{
 			switch (rot)
 			{
+				//normal
+			case 0:
+				SetBufferPixel(destx + j, desty + i, GetPixel(sourcex + j, sourcey + i));
+				break;
 			//flip x
 			case 1: 
-				SetBufferPixel(destx + x, desty + y, GetPixel(sourcex + (tsize - x) , sourcey + y));
+				SetBufferPixel(destx + j, desty + i, GetPixel(sourcex + (tsize - j), sourcey + i));
 				break;
 				//rotate 90
 			case 2:
-				SetBufferPixel(destx + y, desty + x, GetPixel(sourcex + y, sourcey + x));
+				SetBufferPixel(destx + (tsize-i), desty + j, GetPixel(sourcex + j, sourcey + i));
 				break;
 				//flip x, rotate 90
 			case 3:
-				SetBufferPixel(destx + y, desty + x, GetPixel(sourcex + (tsize-x), sourcey + y));
+				SetBufferPixel(destx + (tsize - i), desty + j, GetPixel(sourcex + (tsize-j), sourcey + i));
 				break;
 				//rotate 180
 			case 4:
-
+				SetBufferPixel(destx + j, desty + i, GetPixel(sourcex + (tsize - j), sourcey + (tsize - i)));
 				break;
 				//flip y
 			case 5:
-				SetBufferPixel(destx + x, desty + y, GetPixel(sourcex + x, sourcey + (tsize - y)));
+				SetBufferPixel(destx + j, desty + i, GetPixel(sourcex + j, sourcey + (tsize - i)));
 				break;
 				//rotate 270
 			case 6:
-
+				SetBufferPixel(destx + (tsize - i), desty + (tsize-j), GetPixel(sourcex + j, sourcey + (tsize - i)));
 				break;
 				//rotate 270, flip x
 			case 7:
-
-				break;
-				//normal
-			case 0:
-			default:
-				SetBufferPixel(destx + x, desty + y, GetPixel(sourcex + x, sourcey + y));
+				SetBufferPixel(destx + (tsize - i), desty + (tsize-j), GetPixel(sourcex + (tsize-j), sourcey + (tsize - i)));
 				break;
 			}
 		}
@@ -718,7 +717,7 @@ int DrawSegments2Buffer(SEGMENT* pSegments)
 	for (int i = 0; i < 256; i++)
 	{
 		SEGMENT s = pSegments[i];
-
+		
 		for (int j = 0; j < 16; j++)
 		{
 
@@ -728,9 +727,10 @@ int DrawSegments2Buffer(SEGMENT* pSegments)
 				int mapX = (i % 16) * 4 + (j % 4);
 				int mapY = floor(i / 16) * 4 + floor(j / 4);
 
-				CopyTIM2Buffer(dx, dy, (mapX * 32), (mapY * 32), pSegments[i].strTilePolyStruct->cRot);
+				POLYSTRUCT p = s.strTilePolyStruct[j];
+	
+				CopyTIM2Buffer(dx, dy, (mapX * 32), (mapY * 32), p.cRot);
 		}
-		
 	}
 		
 	
